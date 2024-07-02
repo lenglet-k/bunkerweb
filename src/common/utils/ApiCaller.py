@@ -16,6 +16,7 @@ from logger import setup_logger
 
 from docker import DockerClient
 from kubernetes import client as kube_client, config
+from kubernetes.client import Configuration
 
 
 class ApiCaller:
@@ -41,6 +42,7 @@ class ApiCaller:
 
         if bw_integration == "Kubernetes":
             config.load_incluster_config()
+            Configuration._default.verify_ssl = False
             corev1 = kube_client.CoreV1Api()
             for pod in corev1.list_pod_for_all_namespaces(watch=False).items:
                 if pod.metadata.annotations is not None and "bunkerweb.io/INSTANCE" in pod.metadata.annotations:

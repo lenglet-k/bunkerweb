@@ -17,6 +17,7 @@ for deps_path in [join(sep, "usr", "share", "bunkerweb", *paths) for paths in ((
 from docker import DockerClient
 from kubernetes import client as kube_client
 from kubernetes import config as kube_config
+from kubernetes.client import Configuration
 
 from common_utils import get_integration  # type: ignore
 from logger import setup_logger  # type: ignore
@@ -221,6 +222,7 @@ if __name__ == "__main__":
                 )
         else:
             kube_config.load_incluster_config()
+            Configuration._default.verify_ssl = False
             kubernetes_client = kube_client.CoreV1Api()
 
             api_http_port = None

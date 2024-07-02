@@ -31,6 +31,7 @@ from json import JSONDecodeError, dumps, loads as json_loads
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from kubernetes import client as kube_client
 from kubernetes import config as kube_config
+from kubernetes.client import Configuration
 from kubernetes.client.exceptions import ApiException as kube_ApiException
 from redis import Redis, Sentinel
 from regex import compile as re_compile, match as regex_match
@@ -134,6 +135,7 @@ with app.app_context():
             app.logger.warning("No docker host found")
     elif INTEGRATION == "Kubernetes":
         kube_config.load_incluster_config()
+        Configuration._default.verify_ssl = False
         kubernetes_client = kube_client.CoreV1Api()
 
     db = Database(app.logger, ui=True, log=False)

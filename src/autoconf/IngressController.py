@@ -4,6 +4,7 @@ from time import sleep
 from traceback import format_exc
 from typing import List
 from kubernetes import client, config, watch
+from kubernetes.client import Configuration
 from kubernetes.client.exceptions import ApiException
 from threading import Thread, Lock
 
@@ -15,6 +16,7 @@ class IngressController(Controller):
         self.__internal_lock = Lock()
         super().__init__("kubernetes")
         config.load_incluster_config()
+        Configuration._default.verify_ssl = False
         self.__corev1 = client.CoreV1Api()
         self.__networkingv1 = client.NetworkingV1Api()
 
