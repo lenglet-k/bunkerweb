@@ -21,7 +21,7 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "watch", "list"]
   - apiGroups: ["networking.k8s.io"]
-    resources: ["ingresses/status"]
+
     verbs: ["patch"]
 ---
 apiVersion: v1
